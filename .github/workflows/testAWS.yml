@@ -1,0 +1,28 @@
+name: 🔍 Test AWS OIDC Connection
+
+on:
+  workflow_dispatch:  # te permet de le lancer manuellement depuis GitHub
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test-oidc:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: eu-west-3
+
+    steps:
+      - name: 🧰 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔐 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::636192785252:role/GitHub-Acces-ECR
+          role-session-name: github-actions-test
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🧪 Test AWS identity
+        run: aws sts get-caller-identity --no-verify-ssl
