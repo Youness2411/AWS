@@ -38,10 +38,12 @@ jobs:
 
       - name: 🏗️ Build & Push Backend
         run: |
-          docker build -f backend/Dockerfile -t $ECR_REGISTRY/backend-repo:latest ./backend
+          docker build -t backend-repo ./backend
+          docker tag backend-repo:latest 636192785252.dkr.ecr.eu-west-3.amazonaws.com/backend-repo:latest
           docker push $ECR_REGISTRY/mon-backend:latest
 
       - name: 🎨 Build & Push Frontend
         run: |
-          docker build -f frontend/Dockerfile -t $ECR_REGISTRY/frontend-repo:latest ./frontend
+          docker build -t frontend-repo ./frontend
+          docker tag frontend-repo:latest 636192785252.dkr.ecr.eu-west-3.amazonaws.com/frontend-repo:latest
           docker push $ECR_REGISTRY/mon-frontend:latest
