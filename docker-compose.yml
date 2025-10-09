@@ -1,6 +1,7 @@
 services:
   backend:
     build: ./backend
+    image: backend-repo:latest
     container_name: onepiece-backend
     ports:
       - "8080:8080"
@@ -22,6 +23,7 @@ services:
 
   frontend:
     build: ./frontend
+    image: frontend-repo:latest
     container_name: onepiece-frontend
     ports:
       - "4200:80"
