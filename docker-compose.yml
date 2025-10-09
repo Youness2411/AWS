@@ -1,0 +1,55 @@
+services:
+  backend:
+    build: ./backend
+    container_name: onepiece-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    depends_on:
+      - db
+    develop:
+      watch:
+        - path: ./backend
+          action: rebuild
+          ignore:
+            - "**/target/**"
+            - "**/.git/**"
+            - "**/.idea/**"
+            - "**/.vscode/**"
+
+  frontend:
+    build: ./frontend
+    container_name: onepiece-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    develop:
+      watch:
+        - path: ./frontend
+          action: rebuild
+          ignore:
+            - "**/dist/**"
+            - "**/node_modules/**"
+            - "**/.git/**"
+            - "**/.idea/**"
+            - "**/.vscode/**"
+
+  db:
+    image: postgres:15
+    container_name: onepiece-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:
