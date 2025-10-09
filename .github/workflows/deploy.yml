@@ -8,6 +8,7 @@ on:
     paths:
       - 'backend/**'
       - 'frontend/**'
+      - 'docker-compose.yml'
       - '.github/workflows/deploy.yml'
 
 env:
@@ -37,14 +38,20 @@ jobs:
         run: |
           aws ecr get-login-password --region $AWS_REGION --no-verify-ssl | docker login --username AWS --password-stdin $ECR_REGISTRY
 
-      - name: 🏗️ Build & Push Backend
+      - name: 🏗️ Build & Push all images from docker-compose
         run: |
-          docker build -t backend-repo ./backend
-          docker tag backend-repo:latest 636192785252.dkr.ecr.eu-west-3.amazonaws.com/backend-repo:latest
+          # Extraire les images à partir du docker-compose
+          docker compose build
+
+          # Tag & push backend
+          docker tag backend-repo:latest $ECR_REGISTRY/backend-repo:latest
           docker push $ECR_REGISTRY/backend-repo:latest
 
-      - name: 🎨 Build & Push Frontend
-        run: |
-          docker build -t frontend-repo ./frontend
-          docker tag frontend-repo:latest 636192785252.dkr.ecr.eu-west-3.amazonaws.com/frontend-repo:latest
+          # Tag & push frontend
+          docker tag frontend-repo:latest $ECR_REGISTRY/frontend-repo:latest
           docker push $ECR_REGISTRY/frontend-repo:latest
+
+          # Tag & push BDD (si tu veux la stocker aussi dans ECR)
+          docker pull postgres:15
+          docker tag postgres:15 $ECR_REGISTRY/postgres:latest
+          docker push $ECR_REGISTRY/postgres:latest
