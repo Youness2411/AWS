@@ -39,6 +39,7 @@ services:
             - "**/.git/**"
             - "**/.idea/**"
             - "**/.vscode/**"
+            - "**/.test/**"
 
   db:
     image: postgres:15
