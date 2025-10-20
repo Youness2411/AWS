@@ -1,0 +1,46 @@
+name: 🚀 Build & Push Docker Images to AWS ECR
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - Test
+    paths:
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - '.github/workflows/deploy.yml'
+
+env:
+  AWS_REGION: eu-west-3
+  ECR_REGISTRY: 636192785252.dkr.ecr.eu-west-3.amazonaws.com
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧰 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔐 Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::636192785252:role/GitHub-Acces-ECR
+          role-session-name: github-actions
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🔑 Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+      - name: 🏗️ Build Docker images
+        run: docker compose build
+
+      - name: 🚀 Tag & Push image to ECR
+        run: |
+          docker tag iris-repo:latest $ECR_REGISTRY/iris-repo:latest
+          docker push $ECR_REGISTRY/iris-repo:latest
