@@ -16,7 +16,7 @@ env:
   ECS_CLUSTER_NAME: cluster-root        # Remplace par ton cluster ECS
   RDS_ENDPOINT: database-1.c3quc0o2258b.eu-west-3.rds.amazonaws.com
   RDS_PORT: 5432
-  RDS_DB_NAME: database-1
+  RDS_DB_NAME: database1
   RDS_USERNAME: postgres
   # Ne mets pas ton password en dur ici, on verra plus bas
 
@@ -55,5 +55,33 @@ jobs:
           docker tag frontend-repo:latest $ECR_REGISTRY/frontend-repo:latest
           docker push $ECR_REGISTRY/frontend-repo:latest
 
+deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: 🔐 Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::636192785252:role/GitHub-Acces-ECR
+          role-session-name: github-actions
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🚀 Deploy Backend to ECS
+        run: |
+          aws ecs run-task --debug \
+            --cluster $ECS_CLUSTER_NAME \
+            --launch-type FARGATE \
+            --task-definition onepiece-backend-task \
+            --network-configuration "awsvpcConfiguration={subnets=[subnet-037cfc5ea85b06bd8],securityGroups=[sg-01f91aa9be735d8e5],assignPublicIp=ENABLED}" \
+            --count 1
+
+      - name: 🚀 Deploy Frontend to ECS
+        run: |
+          aws ecs run-task --debug \
+            --cluster $ECS_CLUSTER_NAME \
+            --launch-type FARGATE \
+            --task-definition onepiece-frontend-task \
+            --network-configuration "awsvpcConfiguration={subnets=[subnet-037cfc5ea85b06bd8],securityGroups=[sg-01f91aa9be735d8e5],assignPublicIp=ENABLED}" \
+            --count 1
 
