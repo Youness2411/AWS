@@ -1,0 +1,94 @@
+.card-skeleton {
+  border: 1px solid rgba(11, 95, 165, 0.12);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 3px 10px rgba(11, 95, 165, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 63px 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  grid-template-areas:
+    "avatar scores scores"
+    "avatar meta   meta";
+  margin-bottom: 12px;
+}
+
+.avatar {
+  grid-area: avatar;
+  margin-top: 12px;
+}
+
+.meta {
+  grid-area: meta;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.scores {
+  grid-area: scores;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.choices {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex: 1;
+}
+
+.footer {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Animation delay for staggered effect */
+.card-skeleton .header .avatar {
+  animation-delay: 0s;
+}
+
+.card-skeleton .header .meta app-skeleton:first-child {
+  animation-delay: 0.1s;
+}
+
+.card-skeleton .header .meta app-skeleton:last-child {
+  animation-delay: 0.2s;
+}
+
+.card-skeleton .header .scores app-skeleton:first-child {
+  animation-delay: 0.3s;
+}
+
+.card-skeleton .header .scores app-skeleton:last-child {
+  animation-delay: 0.4s;
+}
+
+.card-skeleton .choices app-skeleton:first-child {
+  animation-delay: 0.5s;
+}
+
+.card-skeleton .choices app-skeleton:last-child {
+  animation-delay: 0.6s;
+}
+
+.card-skeleton .footer app-skeleton:first-child {
+  animation-delay: 0.7s;
+}
+
+.card-skeleton .footer app-skeleton:last-child {
+  animation-delay: 0.8s;
+}

@@ -1,0 +1,74 @@
+<div class="profile">
+  <!-- Loading skeleton -->
+  <app-profile-skeleton *ngIf="loading"></app-profile-skeleton>
+  
+  <!-- Profile content -->
+  <div class="card" *ngIf="!loading">
+    <div class="header">
+      <div class="avatar">
+        <img *ngIf="imagePreview" [src]="imagePreview" alt="avatar">
+        <span *ngIf="!imagePreview">{{ (form.username || '?') | slice:0:1 }}</span>
+      </div>
+      <div class="titles">
+        <h1>My Profile</h1>
+        <p *ngIf="message" class="message">{{message}}</p>
+        <p *ngIf="error" class="error">{{error}}</p>
+      </div>
+    </div>
+
+    <form (submit)="$event.preventDefault(); save()" class="form">
+      <label>Username</label>
+      <input type="text" [(ngModel)]="form.username" name="username" placeholder="Your name">
+
+      <label>Email</label>
+      <input type="email" [(ngModel)]="form.email" name="email" placeholder="you@example.com">
+
+      <label>Avatar</label>
+      <input type="file" accept="image/*" (change)="onImageChange($event)">
+
+      <div class="actions">
+        <button class="primary" [disabled]="submitting">Save changes</button>
+      </div>
+    </form>
+
+    <!-- Password Change Section -->
+    <div class="password-section">
+      <h2>Change Password</h2>
+      <form (submit)="$event.preventDefault(); changePassword()" class="password-form">
+        <label>Current Password</label>
+        <input type="password" [(ngModel)]="passwordForm.currentPassword" name="currentPassword" placeholder="Enter current password" required>
+
+        <label>New Password</label>
+        <input type="password" [(ngModel)]="passwordForm.newPassword" name="newPassword" placeholder="Enter new password" required>
+
+        <label>Confirm New Password</label>
+        <input type="password" [(ngModel)]="passwordForm.confirmPassword" name="confirmPassword" placeholder="Confirm new password" required>
+
+        <div class="actions">
+          <button type="submit" class="secondary" [disabled]="submitting">Change Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Two columns layout for theories -->
+  <div class="theories-container" *ngIf="!loading">
+    <!-- My Theories Column -->
+    <div class="theories-column">
+      <h2 class="column-title">📝 My Theories</h2>
+      <div class="cards" *ngIf="!error">
+        <app-theory-card *ngFor="let t of userTheories" [theory]="t" [userId]="userId" [userVotes]="userVotes"></app-theory-card>
+      </div>
+      <p *ngIf="userTheories.length === 0 && !error" class="empty-message">You haven't created any theories yet.</p>
+    </div>
+
+    <!-- Saved Theories Column -->
+    <div class="theories-column">
+      <h2 class="column-title"><span class="bookmark-icon">★</span> Saved Theories</h2>
+      <div class="cards" *ngIf="!error">
+        <app-theory-card *ngFor="let t of bookmarkedTheories" [theory]="t" [userId]="userId" [userVotes]="userVotes"></app-theory-card>
+      </div>
+      <p *ngIf="bookmarkedTheories.length === 0 && !error" class="empty-message">You haven't saved any theories yet. Click the ★ icon on any theory to save it here.</p>
+    </div>
+  </div>
+</div>

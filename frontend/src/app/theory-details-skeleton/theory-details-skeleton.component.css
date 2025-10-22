@@ -1,0 +1,168 @@
+.theory-details-skeleton {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.title-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.author-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scores {
+  display: flex;
+  gap: 16px;
+}
+
+.content {
+  margin-bottom: 24px;
+}
+
+.content-header {
+  margin-bottom: 20px;
+}
+
+.content-body {
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 16px 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comments-section {
+  margin-top: 24px;
+}
+
+.comment-skeletons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-skeleton {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.comment-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Animation delays for staggered effect */
+.theory-details-skeleton .header .title-section app-skeleton:first-child {
+  animation-delay: 0s;
+}
+
+.theory-details-skeleton .header .title-section app-skeleton:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.theory-details-skeleton .meta-info .avatar {
+  animation-delay: 0.2s;
+}
+
+.theory-details-skeleton .meta-info .author-info app-skeleton:first-child {
+  animation-delay: 0.3s;
+}
+
+.theory-details-skeleton .meta-info .author-info app-skeleton:last-child {
+  animation-delay: 0.4s;
+}
+
+.theory-details-skeleton .meta-info .scores app-skeleton:first-child {
+  animation-delay: 0.5s;
+}
+
+.theory-details-skeleton .meta-info .scores app-skeleton:last-child {
+  animation-delay: 0.6s;
+}
+
+.theory-details-skeleton .content-header app-skeleton {
+  animation-delay: 0.7s;
+}
+
+.theory-details-skeleton .content-body app-skeleton:nth-child(1) {
+  animation-delay: 0.8s;
+}
+
+.theory-details-skeleton .content-body app-skeleton:nth-child(2) {
+  animation-delay: 0.9s;
+}
+
+.theory-details-skeleton .content-body app-skeleton:nth-child(3) {
+  animation-delay: 1.0s;
+}
+
+.theory-details-skeleton .actions app-skeleton:first-child {
+  animation-delay: 1.1s;
+}
+
+.theory-details-skeleton .actions app-skeleton:last-child {
+  animation-delay: 1.2s;
+}
+
+.theory-details-skeleton .comments-section app-skeleton:first-child {
+  animation-delay: 1.3s;
+}
+
+.theory-details-skeleton .comment-skeleton:nth-child(1) app-skeleton {
+  animation-delay: 1.4s;
+}
+
+.theory-details-skeleton .comment-skeleton:nth-child(2) app-skeleton {
+  animation-delay: 1.5s;
+}
+
+.theory-details-skeleton .comment-skeleton:nth-child(3) app-skeleton {
+  animation-delay: 1.6s;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .theory-details-skeleton {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .header {
+    border-bottom-color: #374151;
+  }
+  
+  .actions {
+    border-top-color: #374151;
+    border-bottom-color: #374151;
+  }
+}

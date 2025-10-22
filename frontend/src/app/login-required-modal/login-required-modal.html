@@ -1,0 +1,16 @@
+<div class="modal-backdrop" *ngIf="visible" (click)="close()"></div>
+<div class="modal" *ngIf="visible">
+  <div class="modal-header">
+    <div class="modal-title">You must be logged in to do this!</div>
+    <button class="modal-close" (click)="close()">✕</button>
+  </div>
+  <div class="modal-body">
+    <p>Please register or sign in.</p>
+  </div>
+  <div class="modal-actions">
+    <a routerLink="/register" class="primary">Go to Register</a>
+    <a routerLink="/login" class="secondary">Sign in</a>
+  </div>
+</div>
+
+

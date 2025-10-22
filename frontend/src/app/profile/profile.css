@@ -1,0 +1,134 @@
+.profile{ max-width:1200px; margin:16px auto; display: flex; flex-direction: column; gap: 20px; padding: 0 16px;}
+.card{ 
+  background: var(--bg-primary); 
+  border: 1px solid var(--border-color); 
+  border-radius: 12px; 
+  padding: 16px; 
+  box-shadow: 0 1px 2px var(--shadow); 
+  max-width: 720px; 
+  margin: 0 auto; 
+}
+.header{ display:flex; align-items:center; gap:12px; margin-bottom:12px }
+.avatar{ 
+  width: 56px; 
+  height: 56px; 
+  border-radius: 50%; 
+  background: var(--bg-secondary); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-weight: 700; 
+  color: var(--text-secondary); 
+  overflow: hidden 
+}
+.avatar img{ width:100%; height:100%; object-fit:cover }
+.titles h1{ margin:0; font-size:18px; color: var(--text-primary); }
+.message{ color:#288b4a }
+.error{ color:#b00020 }
+.form{ display:flex; flex-direction:column; gap:10px }
+.form label{ 
+  color: var(--text-primary); 
+  font-size: 14px; 
+  margin-bottom: 4px;
+}
+.form input[type="text"], .form input[type="email"], .form input[type="password"]{ 
+  border: 1px solid var(--border-color); 
+  border-radius: 8px; 
+  padding: 10px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+.form input[type="text"]::placeholder,
+.form input[type="email"]::placeholder,
+.form input[type="password"]::placeholder {
+  color: var(--text-muted);
+}
+.form input[type="file"] {
+  color: var(--text-primary);
+}
+.actions{ display:flex; justify-content:flex-end }
+.primary{ background:var(--op-ocean); color:#fff; border:1px solid var(--op-ocean); padding:10px 14px; border-radius:8px; cursor:pointer; transition: all 0.25s ease }
+.primary:hover{ background:#083464; border-color:#083464 }
+.secondary{ background:#6c757d; color:#fff; border:1px solid #6c757d; padding:10px 14px; border-radius:8px; cursor:pointer; transition: all 0.25s ease }
+.secondary:hover{ background:#5a6268; border-color:#5a6268 }
+
+/* Password Change Section */
+.password-section{ 
+  margin-top: 24px; 
+  padding-top: 24px; 
+  border-top: 1px solid var(--border-color);
+}
+.password-section h2{ 
+  margin: 0 0 16px 0; 
+  font-size: 16px; 
+  color: var(--text-primary);
+}
+.password-form{ display:flex; flex-direction:column; gap:10px }
+.password-form label {
+  color: var(--text-primary);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.password-form input[type="password"] {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+.password-form input[type="password"]::placeholder {
+  color: var(--text-muted);
+}
+.cards{ display: flex; flex-direction: column; gap: 10px;}
+
+/* Two columns layout for theories */
+.theories-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.theories-column {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 2px var(--shadow);
+  min-height: 300px;
+}
+
+.column-title {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.bookmark-icon {
+  color: #ffc107;
+  font-size: 22px;
+  margin-right: 8px;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  margin: 0;
+}
+
+/* Responsive: stack columns on smaller screens */
+@media (max-width: 968px) {
+  .theories-container {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,44 @@
+.env
+/backend/certs/*
+/frontend/certs/*
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Editors/IDEs
+.vscode/
+.idea/
+*.iml
+
+# Node / ai-proxy
+/ai-proxy/node_modules/
+
+# Node / Frontend
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/pnpm-debug.log*
+
+# Angular cache
+/.angular/
+
+# Backend / Java / Maven
+/backend/target/
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/
+mvnw*
+
+# Logs
+*.log
+/logs/
+
+# Coverage / test outputs
+/frontend/coverage/
+
+# Env files
+.env*

@@ -1,0 +1,36 @@
+<div class="card" #cardHost (mouseenter)="onCardEnter()" (mouseleave)="onCardLeave()">
+  <a class="card-link" [routerLink]="['/theories', theory?.id]">
+    <div class="header">
+      <div class="avatar">
+        <img *ngIf="theoryImageUrl" [src]="theoryImageUrl" alt="theory image" />
+        <span *ngIf="!theoryImageUrl">?</span>
+      </div>
+      <div class="meta">
+        <div class="title" [title]="theory?.title">{{theory?.title}}</div>
+        <div class="author">from {{ theoryAuthorUsername }}</div>
+      </div>
+      <div class="scores">
+        <div class="ai">{{ theory.aiScore || 0 }}% <span>AI</span></div>
+        <div class="public">{{
+          (upVotes + downVotes) > 0 ? ((upVotes / (upVotes + downVotes)) * 100 | number:'1.0-0') : 0
+        }}% <span>Public</span></div>
+      </div>
+    </div>
+  </a>
+
+  <div class="choices">
+    <button class="yes" [class.active]="myVote==='up'" (click)="onVoteClick('up', $event)">Yes</button>
+    <button class="no" [class.active]="myVote==='down'" (click)="onVoteClick('down', $event)">No</button>
+  </div>
+  <div class="footer">
+      <span class="votes">{{(upVotes + downVotes) || '0'}}฿ votes </span>
+      <span class="coms">{{totalComments || '0'}}฿ comments </span>
+      <button class="bookmark-btn" [class.bookmarked]="isBookmarked" (click)="onBookmarkClick($event)" [title]="isBookmarked ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+        <span *ngIf="!isBookmarked">☆</span>
+        <span *ngIf="isBookmarked">★</span>
+      </button>
+  </div>
+</div>
+<div class="preview-fly" *ngIf="showPreview" [style.left.px]="previewLeft" [style.top.px]="previewTop" [style.width.px]="previewWidth" (mouseenter)="onPreviewEnter()" (mouseleave)="onPreviewLeave()">
+  <div class="preview-inner" [innerHTML]="previewHtml"></div>
+</div>

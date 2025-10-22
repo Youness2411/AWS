@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    font-family: "Krona One", sans-serif;
+}
+
+/* Global theme variables */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #adb5bd;
+    --border-color: #dee2e6;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #404040;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #808080;
+    --border-color: #404040;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(0, 0, 0, 0.4);
+}
+
+/* Apply theme to body */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth transitions for all elements */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ToastUI Editor Viewer - Dark Mode Support */
+[data-theme="dark"] .toastui-editor-contents,
+[data-theme="dark"] .toastui-editor-contents *,
+[data-theme="dark"] .toastui-editor-contents p,
+[data-theme="dark"] .toastui-editor-contents h1,
+[data-theme="dark"] .toastui-editor-contents h2,
+[data-theme="dark"] .toastui-editor-contents h3,
+[data-theme="dark"] .toastui-editor-contents h4,
+[data-theme="dark"] .toastui-editor-contents h5,
+[data-theme="dark"] .toastui-editor-contents h6,
+[data-theme="dark"] .toastui-editor-contents li,
+[data-theme="dark"] .toastui-editor-contents td,
+[data-theme="dark"] .toastui-editor-contents th,
+[data-theme="dark"] .toastui-editor-contents span,
+[data-theme="dark"] .toastui-editor-contents div,
+[data-theme="dark"] .toastui-editor-contents strong,
+[data-theme="dark"] .toastui-editor-contents em,
+[data-theme="dark"] .toastui-editor-contents blockquote {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .toastui-editor-contents table,
+[data-theme="dark"] .toastui-editor-contents th,
+[data-theme="dark"] .toastui-editor-contents td {
+    border-color: #404040 !important;
+}
+
+[data-theme="dark"] .toastui-editor-contents thead th {
+    background-color: #2d2d2d !important;
+}
+
+[data-theme="dark"] .toastui-editor-contents code {
+    background-color: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .toastui-editor-contents pre {
+    background-color: #2d2d2d !important;
+    border-color: #404040 !important;
+}
+
+[data-theme="dark"] .toastui-editor-contents blockquote {
+    border-left-color: #404040 !important;
+    color: #b3b3b3 !important;
+}
+
+[data-theme="dark"] .toastui-editor-contents a {
+    color: #5da8ff !important;
+}
+
+[data-theme="dark"] .toastui-editor-contents hr {
+    border-color: #404040 !important;
+}

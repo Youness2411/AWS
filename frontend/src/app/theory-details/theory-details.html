@@ -1,0 +1,161 @@
+<div class="details" *ngIf="!loading && !error; else statusTpl">
+  <div class="layout">
+    <main class="left">
+      <header class="hero">
+        <div class="hero-row">
+          <div class="avatar">
+            <img *ngIf="theory?.imageUrl" [src]="theory.imageUrl" alt="theory image">
+            <span *ngIf="!theory?.imageUrl">?</span>
+          </div>
+
+
+          <div class="owner-actions" *ngIf="canEditTheory()">
+            <button class="secondary" (click)="goToEditTheory()">Edit theory</button>
+            <button class="delete-comment" (click)="confirmDeleteTheory=true">Delete theory</button>
+          </div>
+
+          <div class="hero-titles">
+            <h1 class="title">{{ theory?.title }}</h1>
+            <p class="author">
+              from 
+              <img *ngIf="theoryAuthorImageUrl" [src]="theoryAuthorImageUrl" alt="author profile" class="author-avatar">
+              {{ theoryAuthorUsername }}
+            </p>
+            <div class="meta">
+              <span class="votes">{{ (upVotes + downVotes) || 0 | number }} votes</span>
+              <span class="dot">•</span>
+              <span class="date">{{ (theory?.updatedAt || theory?.createdAt) | date:'MMMM d, y' }}</span>
+            </div>
+          </div>
+
+          <div class="gauges-row">
+            <div class="gauge large"
+                [ngStyle]="{'--val': publicPct, '--color': gaugeColor(publicPct)}">
+              <div class="ring"></div>
+              <div class="gauge-text">
+                <div class="pct">{{ publicPct | number:'1.0-0' }}%</div>
+                <div class="label">Public</div>
+              </div>
+            </div>
+
+            <div class="gauge large"
+                [ngStyle]="{'--val': theory?.aiScore || 0, '--color': gaugeColor(theory?.aiScore || 0)}">
+              <div class="ring"></div>
+              <div class="gauge-text">
+                <div class="pct">{{ theory?.aiScore || 0 | number:'1.0-0' }}%</div>
+                <div class="label">AI</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <section class="content-card">
+        <div class="version-bar" *ngIf="versions?.length">
+          <label>Version:</label>
+          <select [(ngModel)]="selectedVersionNumber" (change)="onVersionChange()">
+            <option *ngFor="let v of versions" [value]="v.versionNumber">v{{v.versionNumber}} ({{ v.createdAt | date:'short' }})</option>
+          </select>
+          <a *ngIf="selectedVersionNumber && selectedVersionNumber !== theory?.versionNumber" (click)="resetToLatest()" style="margin-left:8px; cursor:pointer">Latest</a>
+        </div>
+
+        <div #viewerHost *ngIf="markdownReady && !viewerError"></div>
+        <div *ngIf="markdownReady && viewerError" class="content-fallback">
+          <div class="content">{{ theory?.content }}</div>
+        </div>
+        <div *ngIf="!markdownReady && !loading" class="content-placeholder">
+          <p>Loading content...</p>
+        </div>
+      </section>
+      <section class="chart-card" *ngIf="series.length">
+        <p-chart type="line" [data]="lineData" [options]="lineOptions" height="320" style="display:block; width:100%; height:320px;"></p-chart>
+      </section>
+    
+
+      <app-confirm-modal [visible]="confirmDeleteTheory" title="Delete theory" message="Are you sure you want to delete this theory? This cannot be undone."
+        (cancel)="confirmDeleteTheory=false"
+        (confirm)="confirmDeleteTheoryAction()">
+      </app-confirm-modal>
+
+      <section class="comments">
+        <div class="comments-title">Comments</div>
+
+        <form class="comment-form" (submit)="$event.preventDefault(); submitComment();" *ngIf="isAuth()">
+          <textarea [(ngModel)]="commentText" name="comment" placeholder="Write a comment..." rows="3"></textarea>
+          <div class="comment-actions">
+            <button class="submit" [disabled]="submitting || !commentText.trim()">Post</button>
+          </div>
+        </form>
+
+        <ng-template #commentItem let-item>
+          <div class="comment">
+            <div class="comment-avatar">
+              <img *ngIf="item?.user?.imageUrl" [src]="item?.user?.imageUrl" alt="">
+              <span *ngIf="!item?.user?.imageUrl">?</span>
+            </div>
+            <div class="comment-body">
+              <div class="comment-header">
+                <span class="comment-user">{{ item?.user?.username || 'Anonymous' }}</span>
+                <span class="comment-date">{{ item?.createdAt | date:'medium' }}</span>
+              </div>
+              <div class="comment-text" *ngIf="editingCommentId!==item?.id; else editTplItem">{{ item?.content }}</div>
+              <ng-template #editTplItem>
+                <div class="comment-form"><textarea [(ngModel)]="editCommentText" rows="3"></textarea>
+                  <div class="comment-actions">
+                    <button class="submit" (click)="saveEditComment()">Save</button>
+                    <button class="secondary" (click)="cancelEditComment()">Cancel</button>
+                  </div>
+                </div>
+              </ng-template>
+
+              <div class="comment-toolbar" *ngIf="editingCommentId!==item?.id">
+                <button class="secondary" (click)="toggleReply(item)">Reply</button>
+                <button class="edit-comment" *ngIf="canEditComment(item)" (click)="startEditComment(item)">Edit</button>
+                <button class="delete-comment" *ngIf="canEditComment(item)" (click)="confirmDeleteId=item?.id">Delete</button>
+              </div>
+
+              <form class="comment-form" *ngIf="replyingTo[item?.id]" (submit)="$event.preventDefault(); submitReply(item);">
+                <textarea [(ngModel)]="replyText[item?.id]" name="reply-{{item?.id}}" placeholder="Write a reply..." rows="2"></textarea>
+                <div class="comment-actions">
+                  <button class="submit" [disabled]="!(replyText[item?.id]||'').trim()">Reply</button>
+                  <button class="secondary" type="button" (click)="toggleReply(item)">Cancel</button>
+                </div>
+              </form>
+
+              <div class="replies" *ngIf="item?.replies?.length">
+                <ng-container *ngFor="let child of item.replies">
+                  <ng-container *ngTemplateOutlet="commentItem; context: {$implicit: child}"></ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-container *ngFor="let c of comments">
+          <ng-container *ngTemplateOutlet="commentItem; context: {$implicit: c}"></ng-container>
+        </ng-container>
+
+        <app-confirm-modal [visible]="!!confirmDeleteId" title="Delete comment" message="Are you sure you want to delete this comment?"
+          (cancel)="confirmDeleteId=null"
+          (confirm)="deleteComment({id: confirmDeleteId}); confirmDeleteId=null">
+        </app-confirm-modal>
+      </section>
+    </main>
+
+    <aside class="right">
+      <div class="vote-card">
+        <div class="vote-title">Do you think this theory is correct?</div>
+        <div class="choices">
+          <button class="yes" [class.active]="myVote==='up'" (click)="onVoteClick('up')">Yes</button>
+          <button class="no" [class.active]="myVote==='down'" (click)="onVoteClick('down')">No</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<ng-template #statusTpl>
+  <app-theory-details-skeleton *ngIf="loading"></app-theory-details-skeleton>
+  <div class="status error" *ngIf="!loading && error">{{ error }}</div>
+</ng-template>
+
+<app-login-required-modal [visible]="showLoginPopup" (closed)="closeLoginPopup()" />

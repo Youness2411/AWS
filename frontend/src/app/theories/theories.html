@@ -1,0 +1,77 @@
+<div class="toolbar">
+  <!-- <input type="text" [(ngModel)]="searchText" placeholder="Search theories..." (keyup.enter)="applyFilters()" /> -->
+  
+  <!-- <button (click)="applyFilters()" class="secondary">Apply</button> -->
+</div>
+<div class="theories-container" #theoriesContainer>
+  <app-spoiler-modal [visible]="showSpoiler" (enter)="onSpoilerEnter()" (leave)="onSpoilerLeave()"></app-spoiler-modal>
+  <!-- Trending Section -->
+  <section class="trending">
+    <h3>Trending now</h3>
+    <div class="carousel" *ngIf="trending?.length">
+      <button type="button" class="nav prev" (click)="prevSlide()" aria-label="Previous">›</button>
+      <div class="track" #trendTrack>
+        <app-theory-card *ngFor="let t of trending" [theory]="t" [userId]="userId" [userVotes]="votes"></app-theory-card>
+      </div>
+      <button type="button" class="nav next" (click)="nextSlide()" aria-label="Next">‹</button>
+      <div class="dots" *ngIf="trending.length>1">
+        <button type="button" *ngFor="let t of trending; let i=index" [class.active]="i===activeSlide" (click)="setSlide(i)"></button>
+      </div>
+    </div>
+    
+    <!-- Skeleton loading for trending section -->
+    <div class="carousel" *ngIf="loadingTrending">
+      <div class="track">
+        <app-theory-card-skeleton *ngFor="let i of [1,2,3,4]"></app-theory-card-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Chapter Section -->
+  <section class="latest">
+    <h3>Related to latest chapter</h3>
+    <div class="cards compact" *ngIf="latestChapter?.length">
+      <app-theory-card *ngFor="let t of latestChapter" [theory]="t" [userId]="userId" [userVotes]="votes"></app-theory-card>
+    </div>
+    
+    <!-- Skeleton loading for latest chapter section -->
+    <div class="cards compact" *ngIf="loadingLatestChapter">
+      <app-theory-card-skeleton *ngFor="let i of [1,2,3,4]"></app-theory-card-skeleton>
+    </div>
+  </section>
+
+  <!-- Error message -->
+  <div *ngIf="!loading && error" class="status error">{{error}}</div>
+
+  <!-- All Theories Section -->
+  <section *ngIf="!loading && !error && theories?.length" class="all-theories">
+    <h3>All theories</h3>
+    
+    <div class="filters-container">
+      <select [(ngModel)]="sortBy" (change)="applyFilters()" class="filter-select">
+        <option value="date">Newest</option>
+        <option value="mostLiked">Most liked</option>
+        <option value="mostComments">Most comments</option>
+        <option value="mostVotes">Most votes</option>
+      </select>
+    </div>
+    
+    <div class="cards">
+      <app-theory-card *ngFor="let t of theories | slice: 0: totalNumberOfRecordsToShow; trackBy: trackByTheoryId" [theory]="t" [userId]="userId" [userVotes]="votes"></app-theory-card>
+    </div>
+  </section>
+
+  <!-- Skeleton loading for main theories list (only when no theories loaded yet) -->
+  <div *ngIf="loading && !theories?.length" class="cards">
+    <app-theory-card-skeleton *ngFor="let i of [1,2,3,4,5,6]"></app-theory-card-skeleton>
+  </div>
+
+  <!-- Load More Button -->
+  <div class="load-more-container" *ngIf="!loading && !error && isLoadMoreVisible">
+    <button type="button" id="load-more-btn" class="load-more-btn" (click)="loadMoreButtonClicked()" [disabled]="loading">
+      Load More Theories
+    </button>
+  </div>
+
+  
+</div>

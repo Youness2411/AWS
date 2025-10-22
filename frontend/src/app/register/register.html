@@ -1,0 +1,37 @@
+<div class="auth-container">
+    <!-- Loading skeleton -->
+    <app-auth-skeleton [showPasswordConfirm]="false" *ngIf="loading"></app-auth-skeleton>
+    
+    <!-- Register form -->
+    <div *ngIf="!loading">
+      <h2>Register</h2>
+      <p *ngIf="message" class="message">{{ message }}</p>
+    
+      <form (ngSubmit)="handleSubmit()">
+      <input
+        type="text"
+        placeholder="Username ..."
+        [(ngModel)]="formData.username"
+        name="username"
+        required
+      />
+      <input
+        type="email"
+        placeholder="Email ..."
+        [(ngModel)]="formData.email"
+        name="email"
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password ..."
+        [(ngModel)]="formData.password"
+        name="password"
+        required
+      />
+  
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account?<a routerLink="/login" routerLinkActive="router-link-active" >Login</a></p>
+    </div>
+  </div>

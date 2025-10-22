@@ -1,0 +1,59 @@
+name: 🚀 Build, Push Docker Images & Deploy to AWS ECS
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/deploy.yml'
+
+env:
+  AWS_REGION: eu-west-3
+  ECR_REGISTRY: 636192785252.dkr.ecr.eu-west-3.amazonaws.com
+  ECS_CLUSTER_NAME: cluster-root        # Remplace par ton cluster ECS
+  RDS_ENDPOINT: database-1.c3quc0o2258b.eu-west-3.rds.amazonaws.com
+  RDS_PORT: 5432
+  RDS_DB_NAME: database-1
+  RDS_USERNAME: postgres
+  # Ne mets pas ton password en dur ici, on verra plus bas
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧰 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔐 Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::636192785252:role/GitHub-Acces-ECR
+          role-session-name: github-actions
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: 🔑 Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+      - name: 🏗️ Build & Push Backend
+        run: |
+          docker build -t backend-repo ./backend
+          docker tag backend-repo:latest $ECR_REGISTRY/backend-repo:latest
+          docker push $ECR_REGISTRY/backend-repo:latest
+
+      - name: 🎨 Build & Push Frontend
+        run: |
+          docker build -t frontend-repo ./frontend
+          docker tag frontend-repo:latest $ECR_REGISTRY/frontend-repo:latest
+          docker push $ECR_REGISTRY/frontend-repo:latest
+
+
+

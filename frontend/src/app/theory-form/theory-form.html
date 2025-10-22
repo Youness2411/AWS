@@ -1,0 +1,31 @@
+<div class="theory-form">
+  <h2>Create a Theory</h2>
+
+  <div class="alert error" *ngIf="error">{{error}}</div>
+  <div class="alert success" *ngIf="message">{{message}}</div>
+
+  <form (submit)="$event.preventDefault(); submit()">
+    <label>Title</label>
+    <input type="text" [(ngModel)]="form.title" name="title" placeholder="Enter a short, clear title" />
+
+    <label>Content (Markdown)</label>
+    <div #editorHost class="editor-container"></div>
+
+    <label>Image (optional)</label>
+    <input type="file" accept="image/*" (change)="onImageChange($event)" />
+    <div class="preview" *ngIf="imagePreview">
+      <img [src]="imagePreview" alt="preview" />
+    </div>
+
+    <div class="checkbox-group">
+      <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="form.isRelatedToLastChapter" name="isRelatedToLastChapter" />
+        <span>This theory is related to the latest chapter</span>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="primary" [disabled]="submitting">Publish</button>
+    </div>
+  </form>
+</div>

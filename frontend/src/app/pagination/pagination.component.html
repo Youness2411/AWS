@@ -1,0 +1,76 @@
+<div class="pagination-container" *ngIf="paginationInfo && paginationInfo.totalPages > 1">
+  <!-- Pagination Info -->
+  <div class="pagination-info" *ngIf="showInfo">
+    <span class="info-text">
+      Showing {{ startElement }} to {{ endElement }} of {{ paginationInfo.totalElements }} results
+    </span>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-controls">
+    <!-- First Page Button -->
+    <button 
+      class="pagination-btn first-page" 
+      [disabled]="!hasPreviousPage"
+      (click)="goToFirstPage()"
+      title="First page"
+      aria-label="Go to first page">
+      ««
+    </button>
+
+    <!-- Previous Page Button -->
+    <button 
+      class="pagination-btn prev-page" 
+      [disabled]="!hasPreviousPage"
+      (click)="goToPreviousPage()"
+      title="Previous page"
+      aria-label="Go to previous page">
+      ‹
+    </button>
+
+    <!-- Page Numbers -->
+    <div class="page-numbers">
+      <button 
+        *ngFor="let page of pages; trackBy: trackByPage"
+        class="pagination-btn page-number"
+        [class.active]="page === paginationInfo.currentPage"
+        (click)="goToPage(page)"
+        [attr.aria-label]="'Go to page ' + (page + 1)"
+        [attr.aria-current]="page === paginationInfo.currentPage ? 'page' : null">
+        {{ page + 1 }}
+      </button>
+    </div>
+
+    <!-- Next Page Button -->
+    <button 
+      class="pagination-btn next-page" 
+      [disabled]="!hasNextPage"
+      (click)="goToNextPage()"
+      title="Next page"
+      aria-label="Go to next page">
+      ›
+    </button>
+
+    <!-- Last Page Button -->
+    <button 
+      class="pagination-btn last-page" 
+      [disabled]="!hasNextPage"
+      (click)="goToLastPage()"
+      title="Last page"
+      aria-label="Go to last page">
+      »»
+    </button>
+  </div>
+
+  <!-- Page Size Selector (Optional) -->
+  <div class="page-size-selector">
+    <label for="pageSize">Per page:</label>
+    <select id="pageSize" class="page-size-select">
+      <option value="5">5</option>
+      <option value="10" selected>10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+    </select>
+  </div>
+</div>
+

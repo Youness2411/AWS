@@ -1,0 +1,62 @@
+<div class="home-layout">
+  <div class="navbar">
+    <a class="navbar-title" href="/">
+      <img [src]="getLogoPath()" alt="Usopp's Lies">
+    </a>
+    <form class="search-form" (submit)="$event.preventDefault(); router.navigate([''], { queryParams: { q: searchText } });">
+      <input type="search" placeholder="What are you looking for ?" class="searchbar" [(ngModel)]="searchText" name="q">
+      <button type="submit" class="searchbutton">Search</button>
+    </form>
+    <div class="auth">
+      <!-- Theme toggle button -->
+      <button class="theme-toggle" (click)="toggleTheme()" [title]="themeService.getThemeLabel()">
+        <span>{{ themeService.getThemeIcon() }}</span>
+      </button>
+      
+      <!-- Not authenticated -->
+      <a class="auth-button-log" *ngIf="!isAuth()" routerLink="/login">
+        <span>Login</span>
+      </a>
+      <a class="auth-button-reg" *ngIf="!isAuth()" routerLink="/register">
+        <span>Register</span>
+      </a>
+      <!-- Authenticated -->
+      <button class="hamburger" *ngIf="isAuth()" (click)="toggleMenu()" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="main-content">
+    <!-- Toast UI Editor CSS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    
+    <!-- <p>{{ message }}</p> -->
+
+    <router-outlet></router-outlet>
+    
+  </div>
+  
+  <!-- Slide-over menu -->
+  <div class="overlay" *ngIf="menuOpen" (click)="closeMenu()"></div>
+  <aside class="side-menu" [class.open]="menuOpen" (click)="$event.stopPropagation()">
+    <header class="menu-header">
+      <div class="menu-title">Menu</div>
+      <button class="close" (click)="closeMenu()">✕</button>
+    </header>
+    <nav class="menu-links">
+      <a routerLink="/profile" (click)="closeMenu()">Profile</a>
+      <a routerLink="/create-theory" (click)="closeMenu()">Create theory</a>
+      <a *ngIf="isAdmin()" routerLink="/admin" (click)="closeMenu()">Admin panel</a>
+      <a *ngIf="isAdmin()" routerLink="/flagged-theories" (click)="closeMenu()">Flagged theories</a>
+      <button class="theme-toggle" (click)="toggleTheme(); closeMenu()">
+        <span>{{ themeService.getThemeIcon() }}</span>
+        <span>{{ themeService.getThemeLabel() }}</span>
+      </button>
+      <button class="logout" (click)="logout(); closeMenu()">Logout</button>
+    </nav>
+  </aside>
+  
+  <!-- Toast notifications -->
+  <app-toast></app-toast>
+</div>
+

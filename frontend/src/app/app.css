@@ -1,0 +1,276 @@
+.home-layout {
+    display: flex;
+    height: 100vh;
+    }
+     
+    .navbar {
+    width: 100%;
+    height: 70px;
+    padding:0 3rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    align-content: center;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    position: fixed;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px var(--shadow);
+    }
+     
+    .navbar-title{
+        justify-self: flex-start;
+    }
+    .navbar-title img{
+    width: 210px;
+    transition: filter 0.3s ease;
+    }
+    
+    /* Logo will be handled by Angular component logic */
+    
+    .auth-button-reg {
+    align-content: center;
+    background-color: var(--op-ocean);
+    border-radius: 6px;
+    border-width: 0;
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-size: 70%;
+    height: 30px;
+    line-height: 1.15;
+    overflow: hidden;
+    padding: 0 25px;
+    text-decoration: none;
+    text-transform: none;
+    transform: translateZ(0);
+    transition: all .2s,box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    }
+
+    .auth-button-log {
+    align-content: center;
+    border-radius: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--op-ocean);
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: var(--op-ocean);
+    cursor: pointer;
+    font-size: 70%;
+    height: 30px;
+    line-height: 1.15;
+    overflow: hidden;
+    padding: 0 25px;
+    text-decoration: none;
+    text-transform: none;
+    transform: translateZ(0);
+    transition: all .2s,box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    }
+    
+    .post-theory-button, .profile-button {
+    align-content: center;
+    border-radius: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--op-ocean);
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
+    box-sizing: border-box;
+    color: var(--op-ocean);
+    cursor: pointer;
+    font-size: 100%;
+    height: 30px;
+    line-height: 1.15;
+    overflow: hidden;
+    padding: 0 25px;
+    text-decoration: none;
+    text-transform: none;
+    transform: translateZ(0);
+    transition: all .2s,box-shadow .08s ease-in;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    }
+    
+    .auth-button-log:disabled, .auth-button-reg:disabled, .post-theory-button:disabled {
+    cursor: default;
+    }
+    
+    .auth-button-log:focus, .auth-button-reg:focus, .post-theory-button:focus {
+    box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+    }
+
+    .auth-button-log:hover, .auth-button-reg:hover, .post-theory-button:hover{
+    background-color: var(--op-ocean);
+    color: #fff;
+    }
+
+    .auth {
+    justify-self: flex-end;
+    display: flex;
+    gap: 1rem;
+    }    
+
+/* Hamburger and slide-over */
+.hamburger{ width:36px; height:30px; display:flex; flex-direction:column; justify-content:space-between; background:transparent; border:none; cursor:pointer; transition: all 0.25s ease }
+.hamburger:hover{ opacity:0.7 }
+.hamburger span{ display:block; height:3px; background:var(--text-primary); border-radius:2px; transition: all 0.3s ease }
+.overlay{ position:fixed; inset:0; background:rgba(0,0,0,.35); backdrop-filter:saturate(120%) blur(2px); z-index: 999 }
+.side-menu{ position:fixed; top:0; right:-320px; width:320px; height:100vh; background:var(--bg-primary); border-left:1px solid var(--border-color); box-shadow:-10px 0 30px var(--shadow); transition:right .25s ease; z-index: 1000; display:flex; flex-direction:column }
+.side-menu.open{ right:0 }
+.menu-header{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--border-color); background:var(--bg-primary); color:var(--text-primary) }
+.menu-title{ font-weight:600; color:var(--text-primary) }
+.menu-header .close{ background:transparent; border:none; font-size:18px; cursor:pointer; transition: all 0.25s ease; color:var(--text-primary) }
+.menu-header .close:hover{ opacity:0.7 }
+.menu-links{ display:flex; flex-direction:column; padding:12px 14px; gap:10px }
+.menu-links a, .menu-links button{ text-align:left; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:10px; padding:10px 12px; color:var(--text-primary); text-decoration:none; transition: all 0.25s ease }
+.menu-links a:hover, .menu-links button:hover{ background:var(--bg-tertiary); border-color:var(--border-color) }
+.menu-links .logout{ background:#fdeaea; border:1px solid #f5c2c2; color:#c04747; cursor:pointer; transition: all 0.25s ease }
+.menu-links .logout:hover{ background:#f8d7da; border-color:#f1aeb5; color:#a02622 }
+
+/* Theme toggle button */
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-secondary);
+    border-color: var(--op-ocean);
+}
+
+    .search-form{
+    border-radius: 50px;
+    width: fit-content;
+    border: 1px solid var(--border-color);
+    padding: 5px;
+    background-color: var(--bg-secondary);
+    justify-self: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    transition: all 0.3s ease;
+    }
+
+    .searchbar{
+    width: 300px;
+    padding: 5px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: none;
+    outline: none;
+    transition: all 0.3s ease;
+    }
+
+    .searchbutton{
+    padding-right: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    }
+    
+    .main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    /* background: linear-gradient(180deg, var(--op-sky) 0%, #eaf5ff 20%, #f7fbff 35%, #fefefe 55%); */
+    }
+     
+    @media (max-width: 768px) {
+    .navbar {
+    width: 70px;
+    }
+     
+    .logo {
+    font-size: 1.5rem;
+    }
+     
+    }
+    
+    
+    
+    
+    /* Adjust margin to match the fixed sidebar width */
+    .main-content {
+    margin-top: 70px;
+    /* Sidebar width when fixed */
+    flex-grow: 1;
+    transition: margin-top 0.3s ease;
+    }
+
+    /* One Piece theme palette - Light Theme */
+    :root {
+    --op-sky:#c7e4ff;     /* sky blue */
+    --op-ocean:#0b3075;   /* ocean blue */
+    --op-sand:#fff6da;    /* parchment/sand */
+    --op-gold:#d2a44b;    /* gold trim */
+    --op-emerald:#1ea95e; /* yes */
+    --op-crimson:#c8472c; /* no */
+    
+    /* Light theme colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #adb5bd;
+    --border-color: #dee2e6;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.15);
+    }
+
+    /* Dark theme colors */
+    [data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #404040;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #808080;
+    --border-color: #404040;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(0, 0, 0, 0.4);
+    
+    /* One Piece colors adjusted for dark theme */
+    --op-sky: #1e3a5f;
+    --op-ocean: #4a90e2;
+    --op-sand: #2d2d1a;
+    --op-gold: #ffd700;
+    --op-emerald: #00ff88;
+    --op-crimson: #ff6b6b;
+    }
+
+    /* Background: subtle sky-to-ocean vertical gradient */
+
+    
+    /* Toast UI Editor tweaks */
+    .toastui-editor-defaultUI {
+    border-radius: 8px;
+    }
+    

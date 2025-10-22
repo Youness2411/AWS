@@ -1,0 +1,129 @@
+# name: main
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - dev
+#   pull_request:
+
+# concurrency:
+#   group: ci-${{ github.ref }}
+#   cancel-in-progress: true
+
+# jobs:
+#   frontend-tests:
+#     name: Frontend (Angular) Tests
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: frontend
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 20
+#           cache: npm
+#           cache-dependency-path: frontend/package-lock.json
+
+#       - name: Install Chrome (headless)
+#         uses: browser-actions/setup-chrome@v1
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Run Unit Tests
+#         run: |
+#           if [ -f ./node_modules/.bin/ng ]; then
+#             ./node_modules/.bin/ng test --watch=false --browsers=ChromeHeadless --no-progress --code-coverage=false
+#           else
+#             npm test --silent --if-present
+#           fi
+
+#       - name: Build (sanity check)
+#         run: npm run build --if-present
+
+#   backend-tests:
+#     name: Backend (Spring Boot) Tests
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: backend
+#     env:
+#       SPRING_PROFILES_ACTIVE: test
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup Java
+#         uses: actions/setup-java@v4
+#         with:
+#           distribution: temurin
+#           java-version: '21'
+#           cache: maven
+
+#       - name: Run Maven Tests
+#         run: mvn -B -ntp clean verify
+
+#   docker-build:
+#     name: Docker Build
+#     runs-on: ubuntu-latest
+#     needs: [frontend-tests, backend-tests]
+#     env:
+#       CORP_CA_PEM: ${{ secrets.CORP_CA_PEM }}
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Ensure certs dirs exist
+#         run: |
+#           mkdir -p backend/certs
+#           mkdir -p frontend/certs
+
+#       - name: Set up QEMU
+#         uses: docker/setup-qemu-action@v3
+
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v3
+
+#       - name: Build Backend Docker image (with corp CA)
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: ./backend
+#           file: ./backend/Dockerfile
+#           tags: local/backend:ci
+#           push: false
+#           secrets: |
+#             id=corp_ca,env=CORP_CA_PEM
+#           build-args: |
+#             SKIP_CORP_CERT=false
+#           cache-from: type=gha,scope=backend
+#           cache-to: type=gha,mode=max,scope=backend
+
+#       - name: Build Frontend Docker image (with corp CA)
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: ./frontend
+#           file: ./frontend/Dockerfile
+#           tags: local/frontend:ci
+#           push: false
+#           secrets: |
+#             id=corp_ca,env=CORP_CA_PEM
+#           build-args: |
+#             SKIP_CORP_CERT=false
+#           cache-from: type=gha,scope=frontend
+#           cache-to: type=gha,mode=max,scope=frontend
+
+#       - name: Build with Docker Compose (optional)
+#         shell: bash
+#         run: |
+#           if [ -f compose.yml ]; then
+#             docker compose -f compose.yml build
+#           elif [ -f docker-compose.yml ]; then
+#             docker compose -f docker-compose.yml build
+#           else
+#             echo "No compose file found, skipping."
+#           fi

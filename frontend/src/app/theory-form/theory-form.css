@@ -1,0 +1,91 @@
+.theory-form{ 
+  max-width: 720px; 
+  margin: 16px auto; 
+  background: var(--bg-primary); 
+  border: 1px solid var(--border-color); 
+  border-radius: 12px; 
+  padding: 16px; 
+  box-shadow: 0 1px 2px var(--shadow);
+}
+.theory-form h2{ 
+  margin: 0 0 12px; 
+  font-size: 18px;
+  color: var(--text-primary);
+}
+.theory-form form{ display: flex; flex-direction: column; gap: 10px }
+.theory-form label{ 
+  font-weight: 600; 
+  color: var(--text-primary);
+  font-size: 14px;
+}
+.theory-form input[type="text"], .theory-form textarea{ 
+  width: 100%; 
+  border: 1px solid var(--border-color); 
+  border-radius: 8px; 
+  padding: 10px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+.theory-form input[type="text"]::placeholder,
+.theory-form textarea::placeholder {
+  color: var(--text-muted);
+}
+.theory-form input[type="file"] {
+  color: var(--text-primary);
+}
+.theory-form .editor-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+}
+.theory-form .preview{ margin-top: 8px }
+.theory-form .preview img{ 
+  max-width: 100%; 
+  border-radius: 8px; 
+  border: 1px solid var(--border-color);
+}
+.theory-form .actions{ display: flex; justify-content: flex-end; margin-top: 8px }
+.theory-form .primary{ 
+  background: var(--op-ocean); 
+  color: #fff; 
+  border: 1px solid var(--op-ocean); 
+  padding: 10px 14px; 
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.theory-form .primary:hover {
+  background: #083464;
+  border-color: #083464;
+}
+.alert{ 
+  padding: 8px 12px; 
+  border-radius: 8px;
+}
+.alert.error{ background: #fdeaea; color: #8b1e1e; border: 1px solid #f5c2c2 }
+.alert.success{ background: #e6f7ec; color: #1f6b3a; border: 1px solid #bfe6cc }
+
+/* Dark mode adjustments for alerts */
+[data-theme="dark"] .alert.error{ 
+  background: #4a2020; 
+  color: #ffb3b3; 
+  border: 1px solid #6b3030;
+}
+[data-theme="dark"] .alert.success{ 
+  background: #1f4a2a; 
+  color: #b3ffcc; 
+  border: 1px solid #2d6b3f;
+}
+
+.checkbox-group{ margin: 12px 0 }
+.checkbox-label{ 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  cursor: pointer; 
+  font-weight: 500; 
+  color: var(--text-primary);
+}
+.checkbox-label input[type="checkbox"]{ margin: 0 }
+
+

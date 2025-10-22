@@ -1,0 +1,14 @@
+<div class="toolbar">
+  <!-- <input type="text" [(ngModel)]="searchText" placeholder="Search theories..." (keyup.enter)="applyFilters()" /> -->
+  
+  <!-- <button (click)="applyFilters()" class="secondary">Apply</button> -->
+</div>
+<div class="theories-container">
+  
+  <div *ngIf="loading" class="status">Loading theories…</div>
+  <div *ngIf="!loading && error" class="status error">{{error}}</div>
+
+  <div class="cards" *ngIf="!loading && !error">
+    <app-theory-card *ngFor="let t of theories" [theory]="t" [userId]="userId" [userVotes]="votes"></app-theory-card>
+  </div>
+</div>
