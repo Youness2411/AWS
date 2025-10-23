@@ -8,6 +8,7 @@ on:
     paths:
       - 'backend/**'
       - 'frontend/**'
+      - 'ai-proxy/**'
       - '.github/workflows/deploypro.yml'
 
 env:
@@ -54,4 +55,10 @@ jobs:
           docker build -t frontend-repo ./frontend
           docker tag frontend-repo:latest $ECR_REGISTRY/frontend-repo:latest
           docker push $ECR_REGISTRY/frontend-repo:latest
+
+      - name: 🎨 Build & Push ai-proxy
+        run: |
+          docker build -t aiproxy-repo ./ai-proxy
+          docker tag aiproxy-repo:latest $ECR_REGISTRY/aiproxy-repo:latest
+          docker push $ECR_REGISTRY/aiproxy-repo:latest
 
