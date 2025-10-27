@@ -1,10 +1,6 @@
 services:
   backend:
-    build: 
-      context: ./backend
-      dockerfile: Dockerfile
-      args:
-        SKIP_CORP_CERT: ${SKIP_CORP_CERT}
+    build:./backend
     container_name: onepiece-backend
     ports:
       - "8080:8080"
@@ -14,6 +10,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SECRETJWTSTRING: ${SECRETJWTSTRING}
       MISTRAL_API_KEY: ${MISTRAL_API_KEY}
+      SKIP_CORP_CERT: ${SKIP_CORP_CERT}
       TZ: Europe/Paris
     volumes:
       - images_data:/app/uploads/images
