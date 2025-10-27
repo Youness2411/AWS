@@ -1,4 +1,4 @@
-name: 🚀 Build, Push Docker Images & Deploy to AWS ECS
+name: 🚀 Build, Push Docker Images & Deploy to AWS ECS T
 
 on:
   workflow_dispatch:
