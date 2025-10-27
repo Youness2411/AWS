@@ -1,6 +1,6 @@
 services:
   backend:
-    build:./backend
+    build: ./backend
     container_name: onepiece-backend
     ports:
       - "8080:8080"
