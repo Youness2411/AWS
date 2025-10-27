@@ -1,6 +1,6 @@
-.env
-/backend/certs/*
-/frontend/certs/*
+#.env
+#*/backend/certs/*
+#*/frontend/certs/*
 
 # OS-specific
 .DS_Store
