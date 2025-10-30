@@ -41,4 +41,4 @@ mvnw*
 /frontend/coverage/
 
 # Env files
-.env*
+#.env*
