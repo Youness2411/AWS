@@ -1,6 +1,6 @@
-#.env
-#*/backend/certs/*
-#*/frontend/certs/*
+.env
+/backend/certs/*
+/frontend/certs/*
 
 # OS-specific
 .DS_Store
@@ -41,4 +41,4 @@ mvnw*
 /frontend/coverage/
 
 # Env files
-#.env*
+.env*

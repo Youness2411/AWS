@@ -11,7 +11,7 @@
     <div class="carousel" *ngIf="trending?.length">
       <button type="button" class="nav prev" (click)="prevSlide()" aria-label="Previous">›</button>
       <div class="track" #trendTrack>
-        <app-theory-card *ngFor="let t of trending" [theory]="t" [userId]="userId" [userVotes]="votes"></app-theory-card>
+        <app-theory-card *ngFor="let t of trending" [theory]="t" [userId]="userId" [userVotes]="votes" [votesLoaded]="votesLoaded"></app-theory-card>
       </div>
       <button type="button" class="nav next" (click)="nextSlide()" aria-label="Next">‹</button>
       <div class="dots" *ngIf="trending.length>1">
@@ -31,7 +31,7 @@
   <section class="latest">
     <h3>Related to latest chapter</h3>
     <div class="cards compact" *ngIf="latestChapter?.length">
-      <app-theory-card *ngFor="let t of latestChapter" [theory]="t" [userId]="userId" [userVotes]="votes"></app-theory-card>
+      <app-theory-card *ngFor="let t of latestChapter" [theory]="t" [userId]="userId" [userVotes]="votes" [votesLoaded]="votesLoaded"></app-theory-card>
     </div>
     
     <!-- Skeleton loading for latest chapter section -->
@@ -57,7 +57,7 @@
     </div>
     
     <div class="cards">
-      <app-theory-card *ngFor="let t of theories | slice: 0: totalNumberOfRecordsToShow; trackBy: trackByTheoryId" [theory]="t" [userId]="userId" [userVotes]="votes"></app-theory-card>
+      <app-theory-card *ngFor="let t of theories | slice: 0: totalNumberOfRecordsToShow; trackBy: trackByTheoryId" [theory]="t" [userId]="userId" [userVotes]="votes" [votesLoaded]="votesLoaded"></app-theory-card>
     </div>
   </section>
 
