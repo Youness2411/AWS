@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.6
+# syntax=docker/dockerfile:1.6 Test
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 WORKDIR /app
 
