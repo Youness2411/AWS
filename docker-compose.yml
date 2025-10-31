@@ -10,10 +10,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SECRETJWTSTRING: ${SECRETJWTSTRING}
       MISTRAL_API_KEY: ${MISTRAL_API_KEY}
-      SKIP_CORP_CERT: ${SKIP_CORP_CERT}
       TZ: Europe/Paris
     volumes:
       - images_data:/app/uploads/images
+    depends_on:
+      - db
     develop:
       watch:
         - path: ./backend
@@ -65,5 +66,19 @@ services:
     depends_on:
       - backend
 
+  db:
+    image: postgres:15
+    container_name: onepiece-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
 volumes:
+  db_data:
   images_data:

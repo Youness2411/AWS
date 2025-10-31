@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Api } from '../service/api';
@@ -16,7 +16,12 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './theories.css'
 })
 export class Theories implements OnInit{
-  constructor(private apiService:Api, private route:ActivatedRoute, private router:Router){}
+  constructor(
+    private apiService:Api, 
+    private route:ActivatedRoute, 
+    private router:Router,
+    private cdr: ChangeDetectorRef
+  ){}
 
   theories: any[] = [];
   baseTheories: any[] = [];
@@ -28,6 +33,7 @@ export class Theories implements OnInit{
   loadingLatestChapter: boolean = false;
   error: string | null = null;
   votes: any[] = [];
+  votesLoaded: boolean = false;
   searchText: string = '';
   sortBy: 'date'|'mostLiked'|'mostComments'|'mostVotes' = 'date';
   
@@ -125,6 +131,10 @@ export class Theories implements OnInit{
         firstValueFrom(this.apiService.getAllUserVotes(this.userId))
           .then(votes => {
             this.votes = votes.votes || [];
+            this.votesLoaded = true;
+            console.log('User votes loaded:', this.votes.length, 'votes');
+            // Trigger change detection to update theory cards
+            this.updateTheoryCardsVotes();
           })
           .catch(error => {
             console.warn('Failed to load user votes:', error);
@@ -132,6 +142,13 @@ export class Theories implements OnInit{
           });
       }, 500);
     }
+  }
+
+  private updateTheoryCardsVotes(): void {
+    // Force change detection to update all theory cards with new vote data
+    // This will trigger the theory cards to re-evaluate their myVote property
+    console.log('Updating theory cards with vote data');
+    this.cdr.detectChanges();
   }
 
   private async loadTrendingTheories(): Promise<void> {
@@ -272,6 +289,11 @@ export class Theories implements OnInit{
   // TrackBy function to prevent unnecessary re-renders
   trackByTheoryId(index: number, theory: any): any {
     return theory?.id || index;
+  }
+
+  // Get votes for a specific theory
+  getVotesForTheory(theoryId: any): any[] {
+    return this.votes.filter((vote: any) => vote.theoryId === theoryId);
   }
 
 

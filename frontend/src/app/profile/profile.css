@@ -132,3 +132,8 @@
   }
 }
 
+@media (max-width: 480px){
+  .card{
+    max-width:  100%;
+  }
+}

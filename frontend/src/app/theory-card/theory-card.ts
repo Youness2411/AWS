@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Component, Input, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { firstValueFrom } from 'rxjs';
@@ -15,7 +15,7 @@ import { ToastService } from '../service/toast.service';
   templateUrl: './theory-card.html',
   styleUrl: './theory-card.css'
 })
-export class TheoryCard implements OnInit, OnDestroy{
+export class TheoryCard implements OnInit, OnChanges, OnDestroy{
   constructor(
     private apiService:Api, 
     private bookmarkService: BookmarkService,
@@ -25,6 +25,7 @@ export class TheoryCard implements OnInit, OnDestroy{
   @Input() theory: any;
   @Input() userId: any;
   @Input() userVotes: any[] = [];
+  @Input() votesLoaded: boolean = false;
   @ViewChild('cardHost', { static: true }) cardHost!: ElementRef<HTMLDivElement>;
 
   upVotes: number = 0;
@@ -51,7 +52,7 @@ export class TheoryCard implements OnInit, OnDestroy{
     this.upVotes = this.theory?.upVotesCount;
     this.downVotes = this.theory?.downVotesCount;
     this.totalComments = this.theory?.commentsCount;
-    this.myVote = this.userVotes.find((v:any) => v.theoryId === this.theory.id)?.type.toLowerCase();
+    this.updateMyVote();
     const raw = (this.theory?.content || '').slice(0, 280);
     // Convert line breaks to proper markdown format
     const processedContent = raw.replace(/\n/g, '\n\n');
@@ -62,6 +63,22 @@ export class TheoryCard implements OnInit, OnDestroy{
     this.bookmarkService.bookmarkedTheoryIds$.subscribe(ids => {
       this.isBookmarked = ids.has(this.theory.id);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Update vote state when userVotes or votesLoaded changes
+    if (changes['userVotes'] || changes['votesLoaded']) {
+      this.updateMyVote();
+    }
+  }
+
+  private updateMyVote(): void {
+    if (this.votesLoaded && this.userVotes.length > 0) {
+      const vote = this.userVotes.find((v:any) => v.theoryId === this.theory.id);
+      this.myVote = vote?.type?.toLowerCase() || null;
+    } else {
+      this.myVote = null;
+    }
   }
 
   onCardEnter(){

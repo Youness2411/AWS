@@ -53,10 +53,20 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.25s ease;
+  font-weight: 600;
 }
-.theory-form .primary:hover {
+.theory-form .primary:hover:not(:disabled) {
   background: #083464;
   border-color: #083464;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.theory-form .primary:disabled {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  border-color: var(--border-color);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 .alert{ 
   padding: 8px 12px; 

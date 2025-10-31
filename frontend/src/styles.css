@@ -19,6 +19,7 @@
     --border-color: #dee2e6;
     --shadow: rgba(0, 0, 0, 0.1);
     --shadow-hover: rgba(0, 0, 0, 0.15);
+    --op-ocean: #0b3075;
 }
 
 [data-theme="dark"] {
@@ -31,6 +32,7 @@
     --border-color: #404040;
     --shadow: rgba(0, 0, 0, 0.3);
     --shadow-hover: rgba(0, 0, 0, 0.4);
+    --op-ocean: #4a90e2;
 }
 
 /* Apply theme to body */
